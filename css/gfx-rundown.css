@@ -1,8 +1,7 @@
 .gfx-rundown{
     display: flex;
     flex-direction: column;
-    padding: 5px;
-    overflow: auto;
+    overflow: none;
     flex:1;
     position: relative;
 }
@@ -17,6 +16,16 @@
     z-index: 0;
 }
 
+.gfx-rundown .rd-items{
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    overflow: auto;
+    flex:1;
+    position: relative;
+    pointer-events: none;
+}
+
 .gfx-rundown .rd-item{
     background-color: rgba(255,255,255,0.1);
     color: #fff;
@@ -24,6 +33,7 @@
     min-height: 50px;
     border-bottom: 1px solid rgba(0,0,0,0.3);
     z-index: 5;
+    pointer-events: auto;
 }
 
 .gfx-rundown .rd-item.selected{

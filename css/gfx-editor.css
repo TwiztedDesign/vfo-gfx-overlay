@@ -108,7 +108,7 @@
     height: 100%;
 }
 
-.gfx-editor input[type='number']{
+.gfx-editor input[type='number'], .gfx-editor input[type='text']{
     border-radius: 0;
     border: 1px solid rgb(255,255,255,0.3);
     outline: none;

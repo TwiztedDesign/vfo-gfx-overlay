@@ -18,6 +18,7 @@ angular.module('gfxApp',[])
             selected:false,
             visibility:true,
             show:true,
+            rdItem:false,
             x:35,
             y:47,
             width:30,
@@ -40,33 +41,71 @@ angular.module('gfxApp',[])
             textVerticalAlign:'center',
             textBold:false,
             textItalic:false,
-            index:0
+            index:0,
+            customClass:''
         }
 
+        function getElementKey(el){
+            return Object.keys($scope.data.elements).find(key => $scope.data.elements[key] === el);
+        }
+
+        $scope.getSelectedRdItem = function(){
+            return $scope.data.rundown.find(rd=>rd.selected);
+        }
+
+        $scope.getSelectedElement = function(){
+            return Object.values($scope.data.elements).find(el=>el.selected);
+        }
+
+
         $scope.newElement = function(){
-            $scope.data.elements[Date.now()]=JSON.parse(JSON.stringify(newElement));
+            let el = JSON.parse(JSON.stringify(newElement));
+            let key = Date.now();
+            $scope.data.elements[key]=el;
+
+            $scope.data.rundown.forEach((rd)=>{
+                    rd.elements[key] = {};
+                    rd.elements[key].text = el.text;
+                    rd.elements[key].visibility = el.visibility;
+                    rd.elements[key].imgSrc = el.imgSrc;
+
+            });
         }
 
         $scope.deleteElement = function(el){
-           delete $scope.data.elements[Object.keys($scope.data.elements).find(key => $scope.data.elements[key] === el)];
+            let key = getElementKey(el);
+
+            $scope.data.rundown.forEach((rd)=>{
+                delete rd.elements[key];
+            });
+
+            delete $scope.data.elements[key];
         }
 
         $scope.selectNone = function(){
             Object.values($scope.data.elements).forEach((e)=>{
                 e.selected=false;
             });
-
-            $scope.selectedElement = undefined;
         }
 
         $scope.selectElement = function(el){
             $scope.selectNone();
             el.selected=true;
-            $scope.selectedElement= el;
         }
 
         $scope.clearElementImg = function(el){
            el.imgSrc = '';
+        }
+
+        $scope.elementChange = function(el){
+            let rd = $scope.getSelectedRdItem();
+            let key = getElementKey(el);
+            if(rd){
+                rd.elements[key] = {};
+                rd.elements[key].text = el.text;
+                rd.elements[key].visibility = el.visibility;
+                rd.elements[key].imgSrc = el.imgSrc;
+            }
         }
 
         $scope.addRdItem = function(){
@@ -79,6 +118,7 @@ angular.module('gfxApp',[])
                 rd.elements[e] = {};
                 rd.elements[e].text = $scope.data.elements[e].text;
                 rd.elements[e].visibility = $scope.data.elements[e].visibility;
+                rd.elements[e].imgSrc = $scope.data.elements[e].imgSrc;
             });
 
             $scope.data.rundown.push(rd);
@@ -91,7 +131,22 @@ angular.module('gfxApp',[])
                 item.elements[e] = {};
                 item.elements[e].text = $scope.data.elements[e].text;
                 item.elements[e].visibility = $scope.data.elements[e].visibility;
+                item.elements[e].imgSrc = $scope.data.elements[e].imgSrc;
             });
+
+            $scope.selectRdItem(item);
+        }
+
+        $scope.updateSelectedRdItem = function(){
+            let rd = $scope.getSelectedRdItem();
+            if(rd){
+                Object.keys($scope.data.elements).forEach((e)=>{
+                    rd.elements[e] = {};
+                    rd.elements[e].text = $scope.data.elements[e].text;
+                    rd.elements[e].visibility = $scope.data.elements[e].visibility;
+                    rd.elements[e].imgSrc = $scope.data.elements[e].imgSrc;
+                });
+            }
         }
 
         $scope.toggleRdItem = function(item){
@@ -105,11 +160,13 @@ angular.module('gfxApp',[])
         }
 
         $scope.playRdItem = function(item){
-            if($scope.selectedRdItem){
-                $scope.stopRdItem($scope.selectedRdItem);
+            if($scope.data.playingRdItem){
+                $scope.stopRdItem($scope.data.playingRdItem);
             }
-            
+
             $scope.selectRdItem(item);
+            
+            $scope.data.playingRdItem = item;
 
             item.playing= true;
 
@@ -131,6 +188,8 @@ angular.module('gfxApp',[])
                     $scope.data.elements[e].show = false;
                 }
             });
+
+            $scope.data.playingRdItem = undefined;
         }
 
         $scope.selectRdNone = function(event){
@@ -139,14 +198,23 @@ angular.module('gfxApp',[])
                 e.rename=false;
             });
 
-            $scope.selectedRdItem = undefined;
+            Object.values($scope.data.elements).forEach((e)=>{
+                e.rdItem=false;
+            });
         }
 
         $scope.selectRdItem = function(item){
-            if(item !== $scope.selectedRdItem){
+            if(item !== $scope.getSelectedRdItem()){
                 $scope.selectRdNone();
                 item.selected=true;
-                $scope.selectedRdItem= item;
+
+                Object.keys(item.elements).forEach((e)=>{
+                    if($scope.data.elements[e]){
+                        Object.assign($scope.data.elements[e], item.elements[e]);
+                        $scope.data.elements[e].show = true;
+                        $scope.data.elements[e].rdItem=true;
+                    }
+                });
             }
         }
 

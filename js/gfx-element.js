@@ -5,7 +5,7 @@ angular.module('gfxApp')
             template:`<div class="gfx-element" ng-class="{draggable:edit, edit:edit, selected:data.selected}" ng-click="select($event)" ng-style="{left:data.x+'%',top:data.y+'%',width:data.width+'%',height:data.height+'%', 'z-index':data.index}" ng-keydown="key($event)">
                 <div id="gfx-element-content" class="gfx-element-content" ng-class="{hide:!data.show || !data.visibility, show:data.show && data.visibility}" ng-style="{color:data.color, 'font-size':data.fontSize+'vw', 'min-width':data.minWidth+'vw', 'text-align':data.textAlign,
                     'font-weight':data.textBold?'bold':'normal','font-style':data.textItalic?'italic':'normal', width:data.bgHorizontalFill?'100%':'auto', opacity:data.opacity, 'align-items':data.bgVerticalFill?'stretch':'flex-start'}">
-                    <div class="content-box" ng-style="{'background-image':'url('+data.imgSrc+')', 'background-position':data.imgPosX+'% '+data.imgPosY+'%', 'background-size':data.imgFill, 'background-color': data.bgColor, 'align-items':data.textVerticalAlign, padding:data.paddingY+'vw 0'}">
+                    <div class="content-box" ng-class="{'{{data.customClass}}':data.customClass && data.customClass!==''}" ng-style="{'background-image':'url('+data.imgSrc+')', 'background-position':data.imgPosX+'% '+data.imgPosY+'%', 'background-size':data.imgFill, 'background-color': data.bgColor, 'align-items':data.textVerticalAlign, padding:data.paddingY+'vw 0'}">
                         <span class="content-text" ng-style="{padding:'0 '+data.paddingX+'vw'}">{{data.text}}</span>
                     </div>
                 </div>
@@ -17,6 +17,12 @@ angular.module('gfxApp')
                         <div class="menu-item" ng-click="hide()" ng-if="data.visibility"><i class="fa fa-eye" aria-hidden="true"></i></div>
                         <div class="menu-item" ng-click="delete()"><i class="fa fa-trash" aria-hidden="true"></i></div>
                     </div>
+                </div>
+                <div class="rd-item" ng-if="false">
+                    <div class="rd-item-marker tl"></div>
+                    <div class="rd-item-marker tr"></div>
+                    <div class="rd-item-marker bl"></div>
+                    <div class="rd-item-marker br"></div>
                 </div>
             </div>`,
             replace:true,
@@ -55,6 +61,10 @@ angular.module('gfxApp')
                 scope.show = function(){
                     scope.data.visibility= true;
                 }
+
+                scope.$watch('[data.text, data.visibility,data.imgSrc]', (d)=>{
+                    scope.onChange();
+                });
                 
                 scope.$watch('edit', () => {
                     if(scope.edit){
