@@ -1,0 +1,90 @@
+.gfx-rundown{
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    overflow: auto;
+    flex:1;
+    position: relative;
+}
+
+.gfx-rundown .gfx-rundown-bg{
+    position: absolute;
+    top:0;
+    left:0;
+    width: 100%;
+    height:100%;
+    background-color: transparent;
+    z-index: 0;
+}
+
+.gfx-rundown .rd-item{
+    background-color: rgba(255,255,255,0.1);
+    color: #fff;
+    display: flex;
+    min-height: 50px;
+    border-bottom: 1px solid rgba(0,0,0,0.3);
+    z-index: 5;
+}
+
+.gfx-rundown .rd-item.selected{
+    background-color:rgb(0 149 255 / 33%);
+}
+
+.gfx-rundown .rd-item .rd-item-info{
+    display: flex;
+    flex-direction: column;
+    padding: 0 5px;
+    flex:1;
+    justify-content: center;
+    font-size: 16px;;
+    color:#fff;
+}
+
+.gfx-rundown .rd-item .rd-item-info .rd-item-info-name{
+    user-select: none;
+    font-size: inherit;
+    color: inherit;
+} 
+
+.gfx-rundown .rd-item .rd-item-info .rd-item-info-rename{
+    background-color: rgba(0,0,0,0.3);
+    font-size: inherit;
+    color: inherit;
+    outline: none;
+    border: none;
+    padding: 2px;
+}
+
+.gfx-rundown .rd-item .rd-item-menu{
+    display: flex;
+}
+
+.gfx-rundown .rd-item .rd-item-menu .rd-item-menu-item{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 50px;
+    background: rgb(0 0 0 / 25%);
+    cursor: pointer;
+}
+.gfx-rundown .rd-item .rd-item-menu .rd-item-menu-item:not(:last-child){
+    border-right:1px solid rgb(0 0 0 / 20%);
+}
+
+.gfx-rundown .rd-item .rd-item-menu .rd-item-menu-item:hover{
+    background-color: #0095FF;
+    color:#fff;
+}
+
+.gfx-rundown .rd-item .rd-item-menu .rd-item-menu-item.playing{
+    background-color: #a10000;
+}
+
+.gfx-rundown .rd-item .rd-item-menu .rd-item-menu-item.playing:hover{
+    background-color: #ff0000;
+}
+
+.gfx-rundown-controls{
+    display: flex;
+    height: 20vh;
+}

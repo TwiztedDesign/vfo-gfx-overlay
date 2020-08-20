@@ -1,0 +1,143 @@
+.gfx-element{
+    position: absolute;
+    display: flex;
+}
+
+.gfx-element.draggable{
+    touch-action: none;
+    user-select: none;
+    box-sizing: border-box
+}
+
+.gfx-element.edit{
+    background-image: linear-gradient(45deg, rgba(255,255,255,0.15) 25%, rgba(50,50,50,0.3) 25%, rgba(50,50,50,0.3) 50%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.15) 75%, rgba(50,50,50,0.3) 75%, rgba(50,50,50,0.3) 100%);
+    background-size: 40px 40px;
+}
+
+.gfx-element .gfx-element-content{
+    display: flex;
+    overflow: hidden;
+    align-items: center;
+    position: relative;
+
+}
+
+.gfx-element .gfx-element-content .content-box{
+    display: flex;
+    width: 100%;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    transition: width 0.5s ease, opacity 0.5s linear;
+}
+
+.gfx-element .gfx-element-content.show .content-box{
+    width: 100%;
+    opacity: 1;
+}
+
+.gfx-element .gfx-element-content.hide .content-box{
+    opacity: 0;
+    width: 0;
+}
+
+.gfx-element .gfx-element-content .content-text{
+    font-size: inherit;
+    color:inherit;
+    user-select: none;
+    white-space: pre;
+    text-align: inherit;
+    width: 100%;
+    box-sizing: border-box;
+    font-weight: inherit;
+    font-style: inherit;
+    transition:padding 0.5s ease;
+}
+
+.gfx-element .gfx-element-content.hide .content-text{
+    padding: 0 !important;
+}
+
+.gfx-element .gfx-element-content .content-input-text{
+    font-size: inherit;
+    padding: inherit;
+    background: transparent;
+    border:none;
+    color:inherit;
+    outline: none;
+    position: absolute;
+    text-align: inherit;
+    width: 100%;
+    left: 0;
+    top: 0;
+    height: 100%;
+    padding: inherit;
+    box-sizing: border-box;
+    font-weight: inherit;
+    font-style: inherit;
+}
+
+.gfx-element .gfx-element-editor{
+    position: absolute;
+    z-index: 99999;
+    width: 100%;
+    height:100%;
+    border:2px solid #0095FF;
+    font-size: 16px;
+    top:0;
+    left:0;
+    pointer-events: none;
+    display: none;;
+}
+
+.gfx-element.edit.selected .gfx-element-editor{
+    display: flex;
+}
+
+.gfx-element.edit:not(.selected):hover .gfx-element-editor{
+    display: flex;
+    border-style: dashed;
+}
+
+.gfx-element .gfx-element-editor .resize-handle{
+    background-color: #0095FF;
+    position: absolute;
+    bottom: -10px;
+    right: -10px;
+    width: 20px;
+    height: 20px;;
+}
+
+.gfx-element .gfx-element-editor .editor-menu{
+    display: flex;
+    background-color: #fff;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.5);
+    position: absolute;
+    right:15px;
+    bottom: calc(100% + 5px);
+    pointer-events: auto;
+}
+
+.gfx-element .gfx-element-editor .editor-menu.bottom{
+    bottom:initial;
+    top: calc(100% + 5px);
+}
+
+.gfx-element .gfx-element-editor .editor-menu .menu-item{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color:#0095FF;
+    user-select: none;
+    cursor: pointer;
+    padding: 5px;
+    height: 35px;
+    min-width: 35px;
+    font-size: 20px;
+}
+
+.gfx-element .gfx-element-editor .editor-menu .menu-item:hover{
+    background-color:#0095FF;
+    color:#fff;
+}
