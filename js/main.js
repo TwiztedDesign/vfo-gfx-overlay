@@ -7,6 +7,8 @@ angular.module('gfxApp',[])
         $scope.data.elements= vff.state.elements || {};
         $scope.data.rundown= vff.state.rundown || [];
 
+         
+
 
         let newRdItem = {
             name: 'New Item',
